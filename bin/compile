@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
+
+set -e
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+BIN_PATH="$BUILD_DIR/bin"
+LIB_PATH="$BUILD_DIR/vendor/wkhtmltox/lib"
+TMP_PATH="$BUILD_DIR/tmp"
+mkdir -p $CACHE_DIR $BIN_PATH $LIB_PATH $TMP_PATH
+
+if [[ -f "$ENV_DIR/WKHTMLTOPDF_DOWNLOAD_URL" ]]; then
+  WKHTMLTOPDF_DOWNLOAD_URL=$(cat "$ENV_DIR/WKHTMLTOPDF_DOWNLOAD_URL")
+else
+  WKHTMLTOPDF_DOWNLOAD_URL="https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox-0.12.6-1.amazonlinux2.x86_64.rpm"
+fi
+
+WKHTMLTOPDF_X86="$CACHE_DIR/wkhtmltox.x86_64"
+WKHTMLTOPDF_PATH="$TMP_PATH/usr/local"
+WKHTMLTOPDF_BINARIES="$WKHTMLTOPDF_PATH/bin"
+WKHTMLTOPDF_LIBS="$WKHTMLTOPDF_PATH/lib"
+
+BIN_DIR=$(cd $(dirname $0); pwd)
+FONTS_DIR=$(cd "$BIN_DIR/../fonts"; pwd)
+
+if [ -f $WKHTMLTOPDF_X86 ]; then
+  echo "-----> Using wkhtmltopdf from cache"
+else
+  echo "-----> Downloading wkhtmltopdf x86_64"
+  curl -L $WKHTMLTOPDF_DOWNLOAD_URL -o $WKHTMLTOPDF_X86
+fi
+
+echo "-----> Unpacking RPM"
+dpkg -x $WKHTMLTOPDF_ $TMP_PATH
+
+echo "-----> Setting permissions"
+chmod +x $WKHTMLTOPDF_BINARIES/*
+
+echo "-----> Moving binaries to the right place"
+mv $WKHTMLTOPDF_BINARIES/* $BIN_PATH/
+
+echo "-----> Moving libs to the right place"
+mv $WKHTMLTOPDF_LIBS/* $LIB_PATH/
+
+echo "-----> Cleaning up"
+rm -rf $WKHTMLTOPDF_PATH
+
+echo "-----> Installing fonts"
+mkdir -p $1/.fonts
+ls $FONTS_DIR
+cp $FONTS_DIR/* $1/.fonts/
+fc-cache -f $1/.fonts
