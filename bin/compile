@@ -33,8 +33,8 @@ else
   curl -L $WKHTMLTOPDF_DOWNLOAD_URL -o $WKHTMLTOPDF_DEB
 fi
 
-echo "-----> Unpacking RPM"
-dpkg -x $WKHTMLTOPDF_ $TMP_PATH
+echo "-----> Unpacking deb"
+dpkg -x $WKHTMLTOPDF_DEB $TMP_PATH
 
 echo "-----> Setting permissions"
 chmod +x $WKHTMLTOPDF_BINARIES/*
