@@ -15,10 +15,10 @@ mkdir -p $CACHE_DIR $BIN_PATH $LIB_PATH $TMP_PATH
 if [[ -f "$ENV_DIR/WKHTMLTOPDF_DOWNLOAD_URL" ]]; then
   WKHTMLTOPDF_DOWNLOAD_URL=$(cat "$ENV_DIR/WKHTMLTOPDF_DOWNLOAD_URL")
 else
-  WKHTMLTOPDF_DOWNLOAD_URL="https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox-0.12.6-1.amazonlinux2.x86_64.rpm"
+  WKHTMLTOPDF_DOWNLOAD_URL="https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb"
 fi
 
-WKHTMLTOPDF_X86="$CACHE_DIR/wkhtmltox.x86_64"
+WKHTMLTOPDF_DEB="$CACHE_DIR/wkhtmltox.deb"
 WKHTMLTOPDF_PATH="$TMP_PATH/usr/local"
 WKHTMLTOPDF_BINARIES="$WKHTMLTOPDF_PATH/bin"
 WKHTMLTOPDF_LIBS="$WKHTMLTOPDF_PATH/lib"
@@ -26,11 +26,11 @@ WKHTMLTOPDF_LIBS="$WKHTMLTOPDF_PATH/lib"
 BIN_DIR=$(cd $(dirname $0); pwd)
 FONTS_DIR=$(cd "$BIN_DIR/../fonts"; pwd)
 
-if [ -f $WKHTMLTOPDF_X86 ]; then
+if [ -f $WKHTMLTOPDF_DEB ]; then
   echo "-----> Using wkhtmltopdf from cache"
 else
-  echo "-----> Downloading wkhtmltopdf x86_64"
-  curl -L $WKHTMLTOPDF_DOWNLOAD_URL -o $WKHTMLTOPDF_X86
+  echo "-----> Downloading wkhtmltopdf deb"
+  curl -L $WKHTMLTOPDF_DOWNLOAD_URL -o $WKHTMLTOPDF_DEB
 fi
 
 echo "-----> Unpacking RPM"

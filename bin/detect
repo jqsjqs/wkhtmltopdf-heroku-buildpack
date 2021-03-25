@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-echo "wkhtmltopdf-buildpack"
+echo "wkhtmltopdf-heroku-buildpack"
 exit 0
