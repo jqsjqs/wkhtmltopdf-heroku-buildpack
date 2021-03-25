@@ -54,7 +54,7 @@ ls $FONTS_DIR
 cp $FONTS_DIR/* $1/.fonts/
 fc-cache -f $1/.fonts
 
-echo "-----> Creating wkhtmltopdf profile script" | indent
+echo "-----> Creating wkhtmltopdf profile script"
 mkdir -p $BUILD_DIR/.profile.d
 cat <<EOF >$BUILD_DIR/.profile.d/wkhtmltopdf.sh
 export PATH="/app/bin:\$PATH"
