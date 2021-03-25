@@ -53,3 +53,11 @@ mkdir -p $1/.fonts
 ls $FONTS_DIR
 cp $FONTS_DIR/* $1/.fonts/
 fc-cache -f $1/.fonts
+
+echo "-----> Creating wkhtmltopdf profile script" | indent
+mkdir -p $BUILD_DIR/.profile.d
+cat <<EOF >$BUILD_DIR/.profile.d/wkhtmltopdf.sh
+export PATH="/app/bin:\$PATH"
+export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:/app/vendor/wkhtmltox/lib"
+export LIBRARY_PATH="\$LD_LIBRARY_PATH:/app/vendor/wkhtmltox/lib"
+EOF
